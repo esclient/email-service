@@ -27,8 +27,6 @@ run: docker-build
 	docker run --rm -it \
 		--env-file .env \
 		-p $(PORT):$(PORT) \
-		-v $(CURDIR):/app \
-		-e WATCHFILES_FORCE_POLLING=true \
 		email-dev
 
 clean:
@@ -43,7 +41,7 @@ gen-stubs: fetch-proto
 	$(MKDIR) "$(OUT_DIR)"
 	protoc \
 		--proto_path="$(TMP_DIR)" \
-		--elixir_out=plugins=grpc:$(OUT_DIR) \
+		--elixir_out=plugins=grpc,gen_descriptors=true:$(OUT_DIR) \
 		"$(TMP_DIR)/$(PROTO_NAME)"
 
 update: gen-stubs clean

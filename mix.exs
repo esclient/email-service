@@ -8,6 +8,7 @@ defmodule Emailservice.MixProject do
       elixir: "~> 1.18",
       start_permanent: Mix.env() == :prod,
       elixirc_paths: elixirc_paths(Mix.env()),
+      protoc_options: [gen_descriptors: true],
       deps: deps()
     ]
   end
@@ -24,7 +25,9 @@ defmodule Emailservice.MixProject do
     [
       {:grpc, "~> 0.6"},
       {:protobuf, "~> 0.10"},
+      {:grpc_reflection, "~> 0.2.0"},
       {:swoosh, "~> 1.14"},
+      {:dotenvy, "~> 1.0"},
       {:finch, "~> 0.18"}
     ]
   end

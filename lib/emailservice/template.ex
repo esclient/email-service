@@ -2,7 +2,7 @@ defmodule EmailService.Template do
   require EEx
 
   defp template_dir do
-    :email_service
+    :emailservice
     |> :code.priv_dir()
     |> to_string()
     |> Path.join("templates")

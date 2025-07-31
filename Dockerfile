@@ -1,29 +1,38 @@
-FROM elixir:1.16-alpine AS build
+FROM elixir:1.18-alpine AS build
 
-RUN apk add --no-cache build-base git protobuf protobuf-dev bash
+RUN apk add --no-cache \
+    openssl \
+    ncurses-libs \
+    libgcc \
+    libstdc++
 
 WORKDIR /app
-ENV MIX_ENV=prod
+
+RUN mix local.hex --force && \
+    mix local.rebar --force
 
 COPY mix.exs mix.lock ./
-COPY config ./config
-RUN mix local.hex --force && mix local.rebar --force && mix deps.get --only prod
+COPY config config
+RUN mix deps.get --only prod && \
+    mix deps.compile
 
-COPY lib ./lib
-COPY generated ./generated
+COPY lib lib
+COPY grpc grpc
 RUN mix compile
 
-FROM elixir:1.16-alpine
-RUN apk add --no-cache openssl ncurses-libs
-WORKDIR /app
 ENV MIX_ENV=prod
+RUN mix release --overwrite
 
-COPY --from=build /app/_build/prod/rel/email_service ./
+FROM elixir:1.18-alpine AS release
 
-ENV REPLACE_OS_VARS=true \
-    SMTP_RELAY=smtp.example.com \
-    SMTP_USER=user@example.com \
-    SMTP_PASS=secret \
-    GRPC_PORT=50051
+RUN apk add --no-cache \
+    openssl \
+    ncurses-libs \
+    libgcc \
+    libstdc++
 
-CMD ["bin/email_service", "start"]
+WORKDIR /app
+COPY --from=build /app/_build/prod/rel/emailservice ./
+
+ENTRYPOINT ["bin/emailservice"]
+CMD ["start"]

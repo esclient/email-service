@@ -3,11 +3,13 @@ defmodule Emailservice do
   require Logger
 
   def start(_type, _args) do
-    port = Application.fetch_env!(:email_service, :grpc_port)
+    port = Application.fetch_env!(:emailservice, :grpc_port)
 
     children = [
       {Finch, name: EmailFinch},
-      {GRPC.Server.Supervisor, {Emailservice.RPC.EmailServer, port, [cred: nil]}}
+      {GRPC.Server.Supervisor, {Emailservice.RPC.EmailServer, port, [cred: nil]}},
+      {GRPC.Server.Supervisor, {Emailservice.Reflection.Server, port, [cred: nil]}},
+      GrpcReflection
     ]
 
     Logger.info("gRPC EmailService running on :#{port}")
