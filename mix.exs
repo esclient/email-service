@@ -14,7 +14,8 @@ defmodule EmailService.MixProject do
 
   def application do
     [
-      extra_applications: [:logger, :swoosh, :crypto, :finch]
+      extra_applications: [:logger, :swoosh, :crypto, :finch, :gen_smtp],
+      mod: {EmailService, []}
     ]
   end
 
@@ -24,6 +25,7 @@ defmodule EmailService.MixProject do
       {:protobuf, "~> 0.10"},
       {:grpc_reflection, "~> 0.2.0"},
       {:swoosh, "~> 1.14"},
+      {:gen_smtp, "~> 1.1"},
       {:dotenvy, "~> 1.0"},
       {:finch, "~> 0.18"}
     ]

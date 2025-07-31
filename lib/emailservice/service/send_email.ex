@@ -8,7 +8,10 @@ defmodule EmailService.Service.SendEmail do
 
     new()
     |> to(to)
-    |> from({"Email Service", "no-reply@example.com"})
+    |> from(
+      {Application.fetch_env!(:emailservice, :from_name),
+       Application.fetch_env!(:emailservice, :from_address)}
+    )
     |> subject(subject_for(template))
     |> html_body(html)
     |> text_body(text)

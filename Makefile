@@ -21,7 +21,7 @@ DOWN_OUT = -O
 endif
 
 docker-build:
-	docker build --build-arg PORT=$(PORT) -t email-dev .
+	docker build --build-arg PORT=$(PORT) -t emailservice .
 
 run: docker-build
 	docker run --rm -it \

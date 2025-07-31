@@ -18,6 +18,7 @@ RUN mix deps.get --only prod && \
 
 COPY lib lib
 COPY grpc grpc
+COPY priv priv
 RUN mix compile
 
 ENV MIX_ENV=prod

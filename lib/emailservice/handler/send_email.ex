@@ -1,12 +1,10 @@
 defmodule EmailService.Handler.SendEmail do
-  alias Email.{SendEmailRequest, EmailTemplate}
-
   @email_regex ~r/^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-  @spec validate(SendEmailRequest.t()) ::
+  @spec validate(Email.SendEmailRequest.t()) ::
           {:ok, %{to: String.t(), template: atom, assigns: keyword}}
           | {:error, atom}
-  def validate(%SendEmailRequest{} = req) do
+  def validate(%Email.SendEmailRequest{} = req) do
     with :ok <- validate_email(req.destination_email),
          :ok <- validate_template(req.template),
          {:ok, assigns} <- vars_to_keyword(req.vars) do
@@ -14,18 +12,28 @@ defmodule EmailService.Handler.SendEmail do
     end
   end
 
-  # helpers ---------------------------------------------------------
-
-  defp validate_email(_), do: {:error, :invalid_email}
+  defp validate_email(email) when is_binary(email) do
+    if Regex.match?(@email_regex, email), do: :ok, else: {:error, :invalid_email}
+  end
 
   defp validate_template(:EMAIL_TEMPLATE_UNSPECIFIED), do: {:error, :template_required}
   defp validate_template(_), do: :ok
 
   defp vars_to_keyword(vars) do
+    allowed = [:code, :another_key]
+
     kw =
-      for %{key: k, value: v} <- vars, into: [] do
-        {String.to_atom(k), v}
-      end
+      vars
+      |> Enum.map(fn %{key: k, value: v} ->
+        atom_key = String.to_atom(k)
+
+        if atom_key in allowed do
+          {atom_key, v}
+        else
+          nil
+        end
+      end)
+      |> Enum.reject(&is_nil/1)
 
     {:ok, kw}
   end
