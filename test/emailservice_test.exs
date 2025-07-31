@@ -1,8 +1,8 @@
-defmodule EmailserviceTest do
+defmodule EmailServiceTest do
   use ExUnit.Case
-  doctest Emailservice
+  doctest EmailService
 
   test "greets the world" do
-    assert Emailservice.hello() == :world
+    assert EmailService.hello() == :world
   end
 end

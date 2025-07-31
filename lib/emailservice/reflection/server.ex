@@ -1,5 +1,5 @@
-defmodule Emailservice.Reflection.Server do
+defmodule EmailService.Reflection.Server do
   use GrpcReflection.Server,
     version: :v1alpha,
-    services: [Emailservice.RPC.EmailServer.Service]
+    services: [EmailService.RPC.EmailServer.Service]
 end

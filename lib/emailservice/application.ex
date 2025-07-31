@@ -1,4 +1,4 @@
-defmodule Emailservice do
+defmodule EmailService do
   use Application
   require Logger
 
@@ -7,8 +7,8 @@ defmodule Emailservice do
 
     children = [
       {Finch, name: EmailFinch},
-      {GRPC.Server.Supervisor, {Emailservice.RPC.EmailServer, port, [cred: nil]}},
-      {GRPC.Server.Supervisor, {Emailservice.Reflection.Server, port, [cred: nil]}},
+      {GRPC.Server.Supervisor, {EmailService.RPC.EmailServer, port, [cred: nil]}},
+      {GRPC.Server.Supervisor, {EmailService.Reflection.Server, port, [cred: nil]}},
       GrpcReflection
     ]
 

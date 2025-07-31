@@ -27,7 +27,7 @@ run: docker-build
 	docker run --rm -it \
 		--env-file .env \
 		-p $(PORT):$(PORT) \
-		email-dev
+		emailservice
 
 clean:
 	$(RM)

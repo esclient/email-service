@@ -1,4 +1,4 @@
-defmodule Emailservice.MixProject do
+defmodule EmailService.MixProject do
   use Mix.Project
 
   def project do
@@ -6,18 +6,15 @@ defmodule Emailservice.MixProject do
       app: :emailservice,
       version: "0.1.0",
       elixir: "~> 1.18",
-      start_permanent: Mix.env() == :prod,
-      elixirc_paths: elixirc_paths(Mix.env()),
-      protoc_options: [gen_descriptors: true],
+      start_permanent: true,
+      elixirc_paths: ["lib", "grpc"],
       deps: deps()
     ]
   end
 
-  defp elixirc_paths(_env), do: ["grpc", "lib"]
-
   def application do
     [
-      extra_applications: [:logger]
+      extra_applications: [:logger, :swoosh, :crypto, :finch]
     ]
   end
 

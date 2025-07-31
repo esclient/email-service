@@ -1,12 +1,9 @@
 import Config
 import Dotenvy
 
-source!([
-  ".env",
-  System.get_env()
-])
+source!(".env", System.get_env())
 
-config :emailservice, Emailservice.Mailer,
+config :emailservice, EmailService.Mailer,
   adapter: Swoosh.Adapters.SMTP,
   relay: System.fetch_env!("SMTP_RELAY"),
   username: System.fetch_env!("SMTP_USER"),
