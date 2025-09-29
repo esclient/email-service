@@ -1,0 +1,20 @@
+name: "lint and test"
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+    types: [ opened, synchronize, reopened ]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  lint-and-test:
+    uses: esclient/tools/.github/workflows/lint-and-test-elixir.yml@0281fe9fb24732deabba25a3228ae496e117e65f
+    with:
+      elixir-version: '1.17.2'
+      otp-version: '27.0'
+    secrets:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
