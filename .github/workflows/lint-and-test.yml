@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   lint-and-test:
-    uses: esclient/tools/.github/workflows/lint-and-test-elixir.yml@0281fe9fb24732deabba25a3228ae496e117e65f
+    uses: esclient/tools/.github/workflows/lint-and-test-elixir.yml@f33ffac5a136ff39098c367ffb2b57168dfca50b
     with:
       elixir-version: '1.18.4'
       otp-version: '27.0'
