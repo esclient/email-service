@@ -27,7 +27,9 @@ defmodule EmailService.MixProject do
       {:swoosh, "~> 1.14"},
       {:gen_smtp, "~> 1.1"},
       {:dotenvy, "~> 1.0"},
-      {:finch, "~> 0.18"}
+      {:finch, "~> 0.18"},
+      {:credo, "~> 1.7"},
+      {:sobelow, "~> 0.13"}
     ]
   end
 end
